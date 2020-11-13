@@ -1,252 +1,262 @@
-# -*- coding: UTF-8 -*-
-# Written by xizhi
+＃-*-编码：UTF-8-*-
+＃xizhi撰写
 
-import os
-import platform
-import re
-import requests
-import linecache
-import time
-import datetime
+导入 操作系统
+导入 平台
+进口 重
+汇入 要求
+导入线 缓存
+导入 时间
+导入 日期时间
 
-def AllinOneExit1():
-  print("程序5秒后自动退出")
-  linecache.clearcache()
-  time.sleep(5)
-  os._exit(0)
+def  AllinOneExit1（）：
+  打印（“程序5秒后自动退出”）
+  行缓存。clearcache（）
+  时间。睡觉（5）
+  os。_退出（0）
 
-def AllinOneClear1():
-  OS = platform.system()
-  if re.findall(r"Windows",OS,flags=re.I) != []:
-    os.system("cls")
-  else:
-    os.system("clear")
+def  AllinOneClear1（）：
+  OS  = 平台。系统（）
+  如果 re。的findall（R “窗口”，操作系统，旗帜=重。我）！= []：
+    os。系统（“ cls”）
+  其他：
+    os。系统（“清除”）
       
-class Unifri1():
-  def UnifriNetGoods1(self):
-    global unifrigoodsn1,unifrigoodsid1,unifripaypri1,unifrigoodsbtl1,unifrigoodsbt1
-    try:
-      unifrigoodsq1 = requests.get("https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/get619Activity/v1?whetherFriday=YES",
-                                                    headers=unifriheaders1,timeout=3).json()
-    except (requests.exceptions.Timeout,requests.exceptions.ConnectionError,ValueError):
-      self.UnifriNetGoods1()
-    if re.findall(r"未登录",str(unifrigoodsq1)) != []:
-      print("返回信息: "+unifrigoodsq1["msg"]+"\n联通登录状态失效了,请重新获取Cookie")
-      AllinOneExit1()
-    unifriactL1 = unifrigoodsq1["resdata"]["activityList"]
-    unifrigoodsnl1 = []
-    unifrigoodsnl11 = []
-    unifrigoodsidl1 = []
-    unifripaypril1 = []
-    unifrigoodsbtl1 = []
-    a = 0
-    unifristate1 = {"10":"立即抢购","20":"去查看","30":"无法抢购","40":"已抢光","50":"未开始"}
-    for b in range(0,len(unifriactL1)):
-      for i,goods in enumerate(unifriactL1[b]["goodsList"],a+1):
-        unifrigoodsnl11.append(str(i)+" "+unifriactL1[b]["navClock"]+\
-                                              unifristate1.get(goods["state"])+" "+goods["goodsName"])
-        unifrigoodsnl1.append(goods["goodsName"])
-        nowdate1 = time.strftime("%Y-%m-%d",time.localtime(int(time.time())))
-        actLtimes1 = int(time.mktime(time.strptime(nowdate1+" "+unifriactL1[b]["navClock"]+":00",
-                                   "%Y-%m-%d %H:%M:%S"))*1000)
-        unifrigoodsbtl1.append(actLtimes1)
-      a = i
-      for goods in unifriactL1[b]["goodsList"]:
-        unifrigoodsidl1.append(goods["goodsId"])
-      for goods in unifriactL1[b]["goodsList"]:
-        unifripaypril1.append(goods["price"]+"0")
-    if re.findall(r"fourNineGoodsList",str(unifrigoodsq1),flags=re.I) != []:
-      for i,goods in enumerate(unifrigoodsq1["resdata"]["fourNineGoodsList"],i+1):
-        unifrigoodsnl11.append(str(i)+" "+unifristate1.get(goods["state"])+" "+goods["goodsName"])
-        unifrigoodsnl1.append(goods["goodsName"])
-      for goods in unifrigoodsq1["resdata"]["fourNineGoodsList"]:
-        unifrigoodsidl1.append(goods["goodsId"])
-      for goods in unifrigoodsq1["resdata"]["fourNineGoodsList"]:
-        unifripaypril1.append(goods["price"]+"0")
-    unifrigoodsn1 = "\n".join(unifrigoodsnl11)
-    print(unifrigoodsq1["msg"]+"\n\n"+unifrigoodsn1)
-    unifrigoodss1 = input("\n请输入对应的数字选择商品:")
-    if unifrigoodss1 == "" or unifrigoodss1 == "0":
-      unifrigoodss1 = 1
-    try:
-      unifrigoodsn1 = unifrigoodsnl1[int(unifrigoodss1)-1]
-      unifrigoodsid1 = unifrigoodsidl1[int(unifrigoodss1)-1]
-      unifripaypri1 = unifripaypril1[int(unifrigoodss1)-1]
-      if int(unifrigoodss1) > int(a):
-        unifrigoodsbt1 = unifrigoodsbtl1[0]
-      else:
-        unifrigoodsbt1 = unifrigoodsbtl1[int(unifrigoodss1)-1]
-      print("已选择商品名称: %s\n对应的商品ID: %s\n对应的商品价格: %s\n"\
-               %(unifrigoodsn1,unifrigoodsid1,unifripaypri1))
-    except IndexError:
-      print("请输入仅列出的数字,1秒后重新输入")
-      time.sleep(1)
-      AllinOneClear1()
-      self.UnifriNetGoods1()
+类 Unifri1（）：
+  def  UnifriNetGoods1（self）：
+    全局 unifrigoodsn1，unifrigoodsid1，unifripaypri1，unifrigoodsbtl1，unifrigoodsbt1
+    尝试：
+      unifrigoodsq1  = 请求。获取（“ https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/get619Activity/v1?whetherFriday=YES”，
+                                                    标头= unifriheaders1，超时= 3）。json（）
+    除外（请求。例外。超时，请求。例外。ConnectionError，ValueError异常）：
+      自我。UnifriNetGoods1（）
+    如果 re。findall（r“未登录”，str（unifrigoodsq1））！= []：
+      print（“返回信息：” + unifrigoodsq1 [ “ msg” ] + “ \ n联通登录状态重置了，请重新获取Cookie”）
+      AllinOneExit1（）
+    unifriactL1  =  unifrigoodsq1 [ “ resdata” ] [ “ activityList” ]
+    unifrigoodsnl1  = []
+    unifrigoodsnl11  = []
+    unifrigoodsidl1  = []
+    unifripaypril1  = []
+    unifrigoodsbtl1  = []
+    a  =  0
+    unifristate1  = { “ 10”：“立即抢购”，“ 20”：“去查看”，“ 30”：“无法抢购”，“ 40”：“已抢光”，“ 50”：“未开始” }
+    为 b 在 范围（0，len个（unifriactL1））：
+      对于 我，产品 在 枚举（unifriactL1 [ b ] [ “商品详细资料” ]，一+ 1）：
+        unifrigoodsnl11。追加（str（i）+ “” + unifriactL1 [ b ] [ “ navClock” ] + \
+                                              unifristate1。get（goods [ “ state” ]）+ “” + goods [ “ goodsName” ]）
+        unifrigoodsnl1。追加（goods [ “ goodsName” ]）
+        nowdate1  = 时间。的strftime（“％Y-％间- ％d” ，时间。本地时间（INT（时间。时间（））））
+        actLtimes1  =  INT（时间。mktime（时间。strptime（nowdate1 + “” + unifriactL1 [ b ] [ “navClock” ] + “：00” ，
+                                   “％Y-％m-％d％H：％M：％S”））* 1000）
+        unifrigoodsbtl1。追加（actLtimes1）
+      a  = 我
+      对于 产品 在 unifriactL1 [ b ] [ “商品详细资料” ]：
+        unifrigoodsidl1。附加（goods [ “ goodsId” ]）
+      对于 产品 在 unifriactL1 [ b ] [ “商品详细资料” ]：
+        unifripaypril1。追加（商品[ “价格” ] + “ 0”）
+    如果 re。的findall（R “fourNineGoodsList” ，STR（unifrigoodsq1），旗帜=重。我）！= []：
+      对于 我，产品 在 枚举（unifrigoodsq1 [ “resdata” ] [ “fourNineGoodsList” ]，我+ 1）：
+        unifrigoodsnl11。追加（STR（我）+ “” + unifristate1。得到（货[ “状态” ]）+ “” +品[ “goodsName” ]）
+        unifrigoodsnl1。追加（goods [ “ goodsName” ]）
+      对于 货物 在 unifrigoodsq1 [ “resdata” ] [ “fourNineGoodsList” ]：
+        unifrigoodsidl1。附加（goods [ “ goodsId” ]）
+      对于 货物 在 unifrigoodsq1 [ “resdata” ] [ “fourNineGoodsList” ]：
+        unifripaypril1。追加（商品[ “价格” ] + “ 0”）
+    unifrigoodsn1  =  “ \ n ”。加入（unifrigoodsnl11）
+    打印（unifrigoodsq1 [ “ msg” ] + “ \ n \ n ” + unifrigoodsn1）
+    unifrigoodss1  = 输入（“ \ n请输入对应的数字选择商品：”）
+    如果 unifrigoodss1  ==  “” 或 unifrigoodss1  ==  “ 0”：
+      unifrigoodss1  =  1
+    尝试：
+      unifrigoodsn1  =  unifrigoodsnl1 [ INT（unifrigoodss1）- 1 ]
+      unifrigoodsid1  =  unifrigoodsidl1 [ INT（unifrigoodss1）- 1 ]
+      unifripaypri1  =  unifripaypril1 [ INT（unifrigoodss1）- 1 ]
+      如果 int（unifrigoodss1）>  int（a）：
+        unifrigoodsbt1  =  unifrigoodsbtl1 [ 0 ]
+      其他：
+        unifrigoodsbt1  =  unifrigoodsbtl1 [ INT（unifrigoodss1）- 1 ]
+      打印（“已选择商品名称：％s \ n对应的商品ID：％s \ n对应的商品价格：％s \ n ” \
+               ％（unifrigoodsn1，unifrigoodsid1，unifripaypri1））
+    除了 IndexError：
+      打印（“请输入仅列出的数字，1秒后重新输入”）
+      时间。睡觉（1）
+      AllinOneClear1（）
+      自我。UnifriNetGoods1（）
 
-  def UnifriLocalGoods1(self):
-    global unifrigoodsn1,unifrigoodsid1,unifripaypri1,unifrigoodsbt1
-    unifrigoodsid1 = linecache.getline(r"unifri1cfg.set",24).strip()
-    if unifrigoodsid1 == "8a29ac8a72a48dbe0172bb4885430d81":
-      unifrigoodsn1 = "美团5元"
-      unifripaypri1 = "2.00"
-    elif unifrigoodsid1 == "8a29ac8972a48dc10172bb4b994e0cc5":
-      unifrigoodsn1 = "美团10元"
-      unifripaypri1 = "3.00"
-    elif unifrigoodsid1 == "8a29ac8972a48dc10172bb4eebaf0ce7":
-      unifrigoodsn1 = "美团30元"
-      unifripaypri1 = "10.00"
-    elif unifrigoodsid1 == "8a29ac8973e8807e017405894eaa0a70":
-      unifrigoodsn1 = "任沃飞"
-      unifripaypri1 = "66.00"
-    elif unifrigoodsid1 == "8a29ac8973e8807e0174058dea5c0ab5":
-      unifrigoodsn1 = "任沃住"
-      unifripaypri1 = "66.00"
-    elif unifrigoodsid1 == "8a29ac89744fa266017453230dcb0424":
-      unifrigoodsn1 = "19.9任意电影票"
-      unifripaypri1 = "0.10"
-    else:
-      unifrigoodsn1 = "月卡"
-      unifripaypri1 = "4.90"
-    unifrigoodsbt1 = "0"
-    print("已选择商品: %s\n对应商品ID: %s\n"%(unifrigoodsn1,unifrigoodsid1))
+  def  UnifriLocalGoods1（self）：
+    全局 unifrigoodsn1，unifrigoodsid1，unifripaypri1，unifrigoodsbt1
+    unifrigoodsid1  =  linecache。getline（r“ unifri1cfg.set”，24）。带（）
+    如果 unifrigoodsid1  ==  “ 8a29ac8a72a48dbe0172bb4885430d81”：
+      unifrigoodsn1  =  “美团5元”
+      unifripaypri1  =  “ 2.00”
+    elif  unifrigoodsid1  ==  “ 8a29ac8972a48dc10172bb4b994e0cc5”：
+      unifrigoodsn1  =  “美团10元”
+      unifripaypri1  =  “ 3.00”
+    elif  unifrigoodsid1  ==  “ 8a29ac8972a48dc10172bb4eebaf0ce7”：
+      unifrigoodsn1  =  “美团30元”
+      unifripaypri1  =  “ 10.00”
+    elif  unifrigoodsid1  ==  “ 8a29ac8973e8807e017405894eaa0a70”：
+      unifrigoodsn1  =  “任沃飞”
+      unifripaypri1  =  “ 66.00”
+    elif  unifrigoodsid1  ==  “ 8a29ac8973e8807e0174058dea5c0ab5”：
+      unifrigoodsn1  =  “任沃住”
+      unifripaypri1  =  “ 66.00”
+    elif  unifrigoodsid1  ==  “ 8a29ac89744fa266017453230dcb0424”：
+      unifrigoodsn1  =  “ 19.9任意电影票”
+      unifripaypri1  =  “ 0.10”
+    其他：
+      unifrigoodsn1  =  “月卡”
+      unifripaypri1  =  “ 4.90”
+    unifrigoodsbt1  =  “ 0”
+    打印（“已选择商品：％s \ n对应商品ID：％s \ n ” ％（unifrigoodsn1，unifrigoodsid1））
 
-  def UnifriGetOrders1(self):
-    try:
-      global unifriorders1
-      unifriorderj1 = requests.post("https://m.client.10010.com/welfare-mall-front/mobile/api/bj2402/v1",
-                                                   headers=unifriheaders1,params=unifridata1,
-                                                   timeout=float(linecache.getline(r"unifri1cfg.set",32).strip())).json()
-      unifriorders1 = unifriorderj1["msg"]
-    except:
-      self.UnifriGetOrders1()
+  def  UnifriGetOrders1（self）：
+    尝试：
+      全球 单身动物1
+      unifriorderj1  = 请求。帖子（“ https://m.client.10010.com/welfare-mall-front/mobile/api/bj2402/v1”，
+                                                   标头= unifriheaders1，params = unifridata1，
+                                                   超时=浮子（linecache。函数getline（R “unifri1cfg.set” ，32）。条（）））。json（）
+      unifriorders1  =  unifriorderj1 [ “ msg” ]
+    除了 KeyboardInterrupt：
+      打印（“用户中断操作”）
+      AllinOneExit1（）
+    除了：
+      打印（（ “可能网络出错了，％S正在重新尝试下单” ％（日期时间。日期时间。现在（）。strftime的（“％M：％S” 。）））ljust（50），端= “ \ r ”）
+      自我。UnifriGetOrders1（）
 
-  def UnifriGettime1(self):
-    try:
-      global unifritime1
-      unifritimes1 = requests.get("https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/getCurrentTimeMillis/v2",
-                                                headers=unifriheaders1,timeout=1).json()["resdata"]["currentTime"]
-      unifritime1 = time.strftime("%H:%M:%S",time.localtime(unifritimes1/1000))+"."+str(unifritimes1)[-3:]
-    except (requests.exceptions.Timeout,requests.exceptions.ConnectionError,ValueError):
-      self.UnifriGettime1()
+  def  UnifriGettime1（self）：
+    尝试：
+      全球 统一时间1
+      unifritimes1  = 请求。获取（“ https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/getCurrentTimeMillis/v2”，
+                                                标头= unifriheaders1，超时= 1）。json（）[ “ resdata” ] [ “ currentTime” ]
+      unifritime1  = 时间。的strftime（“％H：％M：％S” ，时间。本地时间（unifritimes1 / 1000））+ “” + str（unifritimes1）[ - 3：]
+    除外（请求。例外。超时，请求。例外。ConnectionError，ValueError异常）：
+      打印（（ “可能网络出错了，％S正在重新尝试对时” ％（日期时间。日期时间。现在（）。strftime的（“％M：％S” 。）））ljust（50），端= “ \ r ”）
+      自我。UnifriGettime1（）
 
-  def UnifriOrdering1(self):
-    try:
-      unifriftime1 = linecache.getline(r"unifri1cfg.set",29).strip()
-      unifriftimes1 = 1
-      if int(linecache.getline(r"unifri1cfg.set",15).strip()) == 1:
-        unifrirt1 = []
-        for times in unifrigoodsbtl1:
-          timef = datetime.datetime.fromtimestamp(times/1000).strftime("%H:%M:%S.%f")[:-3]
-          if not timef in unifrirt1:
-            unifrirt1.append(timef)
-        self.UnifriGettime1()
-        for timef in unifrirt1:
-          unifriwm1 = linecache.getline(r"unifri1cfg.set",17).strip()
-          unifriwt1 = (datetime.datetime.strptime(timef,"%H:%M:%S.%f")+datetime.timedelta(minutes=-int(unifriwm1))).strftime("%H:%M:%S.%f")[:-3]
-          if unifritime1 >= unifriwt1 and unifritime1 < timef:
-            print("请勿关闭,程序将在 %s 开抢"%(timef))
-            while unifritime1 > unifriwt1 and unifritime1 < timef:
-              unifriwt11 = (datetime.datetime.strptime(timef,"%H:%M:%S.%f")+datetime.timedelta(minutes=-1)).strftime("%H:%M:%S.%f")[:-3]
-              if unifritime1 < unifriwt11:
-                time.sleep(30)
-              else:
-                time.sleep(0.01)
-              self.UnifriGettime1()
-        time.sleep(float(linecache.getline(r"unifri1cfg.set",19).strip()))
-      self.UnifriGetOrders1()
-      while re.findall(r"下单成功",str(unifriorders1)) == []:
-        print("返回信息: "+unifriorders1)
-        if re.findall(r"达到上限|数量限制|次数限制",str(unifriorders1)) != []:
-          print("返回信息: "+unifriorders1)
-          print("该账号已有订单,不能再次购买\n")
-          AllinOneExit1()
-        elif re.findall(r"下单成功",str(unifriorders1)) != []:
-          break
-        unifriftimes1 += 1
-        if unifriftimes1 % 50 == 0:
-          try:
-            unifriwporderj1 = requests.post("https://m.client.10010.com/welfare-mall-front/mobile/show/bj3034/v1",
-                                                   headers=unifriheaders1,params="reqsn=&reqtime=0&cliver=&reqdata=%7B%7D",
-                                                   timeout=float(linecache.getline(r"unifri1cfg.set",32).strip())).json()
-            unifriwporders1 = unifriwporderj1["resdata"]["orderCount"]["wait_pay_order"]
-            if int(unifriwporders1) > 0:
-              print("该账号有未支付订单,请尽快支付,逾期将失效哦")
-              if int(linecache.getline(r"unifri1cfg.set",35).strip()) == 1:
-                times = time.strftime("%H{}%M{}%S{}").format("时","分","秒")   #加入时间,避免造成重复消息导致Server酱无法推送
-                requests.get("https://sc.ftqq.com/%s.send?text=%s Unifri1的账号有未支付订单,请尽快支付,逾期将失效哦"\
-                            %(linecache.getline(r"unifri1cfg.set",37).strip(),times))
-              AllinOneExit1()
-          except:pass
-        print("没有下单成功,将在%s秒后第%s次刷新"%(unifriftime1,unifriftimes1))
-        time.sleep(float(unifriftime1))
-        self.UnifriGetOrders1()
-      print("%s 已下单成功,请尽快在30分钟内支付,逾期将失效哦"%(unifrigoodsn1))
-      with open("Unifri1的商品 "+unifrigoodsn1+" "+\
-                      time.strftime("%H{}%M{}%S{}").format("时","分","秒")+"下单成功.ordered","w") as ordered:
-        print("已记录Unifri1的商品:%s 下单成功时间"%(unifrigoodsn1))
-      if int(linecache.getline(r"unifri1cfg.set",35).strip()) == 1:
-        times = time.strftime("%H{}%M{}%S{}").format("时","分","秒")   #加入时间,避免造成重复消息导致Server酱无法推送
-        requests.get("https://sc.ftqq.com/%s.send?text=%s %s 下单成功,请尽快在30分钟内支付,逾期将失效哦"\
-                            %(linecache.getline(r"unifri1cfg.set",37).strip(),times,unifrigoodsn1))
-      AllinOneExit1()
-    except (requests.exceptions.Timeout,requests.exceptions.ConnectionError,ValueError):
-      self.UnifriOrdering1()
+  def  UnifriOrdering1（self）：
+    尝试：
+      unifriftime1  =  linecache。getline（r“ unifri1cfg.set”，29）。带（）
+      unifriftimes1  =  1
+      如果 INT（linecache。函数getline（R “unifri1cfg.set” ，15）。条（））==  1：
+        unifrirt1  = []
+        对于 次 在 unifrigoodsbtl1：
+          timef  =  datetime。日期时间。fromtimestamp（times / 1000）。strftime（“％H：％M：％S.％f”）[：- 3 ]
+          如果 不是 timef  in  unifrirt1：
+            unifrirt1。追加（timef）
+        自我。UnifriGettime1（）
+        对于 unifrirt1 中的 timef：
+          unifriwm1  =  linecache。getline（r“ unifri1cfg.set”，17）。带（）
+          unifriwt1  =（日期时间。日期时间。strptime（TIMEF，“％H：％M：％S％F” ）+日期时间。timedelta（分钟= - INT（unifriwm1）））。strftime（“％H：％M：％S.％f”）[：- 3 ]
+          unifriwt11  =（日期时间。日期时间。strptime（TIMEF，“％H：％M：％S％F” ）+日期时间。timedelta（分钟= - 1））。strftime（“％H：％M：％S.％f”）[：- 3 ]
+          如果 unifritime1  > =  unifriwt1 并且 unifritime1  <  timef：
+            打印（“禁止关闭，程序将在％s开抢” ％（timef））
+            而 unifritime1  >  unifriwt1 和 unifritime1  <  timef：
+              如果 unifritime1  <  unifriwt11：
+                打印（“当前联通的时间是：％s，每隔30秒刷新时间” ％（unifritime1），结束= “ \ r ”）
+                时间。睡觉（30）
+              其他：
+                打印（“当前联通的时间是：％s，每隔0.01秒刷新时间” ％（unifritime1），结束= “ \ r ”）
+                时间。睡眠（0.01）
+              自我。UnifriGettime1（）
+        时间。睡眠（浮动（linecache。函数getline（R “unifri1cfg.set” ，19）。条（）））
+      自我。UnifriGetOrders1（）
+      而 重。findall（r“下单成功”，str（unifriorders1））== []：
+        打印（（ “返回信息：” + unifriorders1。）ljust（50），端= “ \ r ”）
+        如果 re。findall（r“达到上限|数量限制|次数限制”，str（unifriorders1））！= []：
+          打印（“返回信息：” + unifriorders1）
+          打印（“该账号已有订单，不能再次购买\ n ”）
+          AllinOneExit1（）
+        ELIF 重。findall（r“下单成功|存在未支付的订单”，str（unifriorders1））！= []：
+          打破
+        unifriftimes1  + =  1
+        如果 unifriftimes1  ％ 20  ==  0：
+          尝试：
+            unifriwporderj1  = 请求。帖子（“ https://m.client.10010.com/welfare-mall-front/mobile/show/bj3034/v1”，
+                                                   标头= unifriheaders1，参数= “ reqsn =＆reqtime = 0＆cliver =＆reqdata =％7B％7D”，
+                                                   超时=浮子（linecache。函数getline（R “unifri1cfg.set” ，32）。条（）））。json（）
+            unifriwporders1  =  unifriwporderj1 [ “ resdata” ] [ “ orderCount” ] [ “ wait_pay_order” ]
+            如果 int（unifriwporders1）>  0：
+              打印（“该账号有未支付订单，请尽快支付，逾期将失效哦”）
+              如果 INT（linecache。函数getline（R “unifri1cfg.set” ，35）。条（））==  1：
+                时间 = 时间。strftime（“％H {}％M {}％S {}”）。格式（“时”，“分”，“秒”）    ＃加入时间，避免造成重复消息导致服务器酱无法推送
+                要求。get（“ https://sc.ftqq.com/%s.send?text=%s Unifri1的帐户有未支付订单，请尽快支付，逾期将失效哦” \
+                            ％（linecache。函数getline（R “unifri1cfg.set” ，37）。条（），次））
+              AllinOneExit1（）
+          除了：通过
+        打印（（“没有下单成功，将在％s秒后第％s次刷新” ％（unifriftime1，unifriftimes1））。ljust（50），end = “ \ r ”）
+        时间。睡眠（float（unifriftime1））
+        自我。UnifriGetOrders1（）
+      打印（“％s已下单成功，请尽快在30分钟内支付，逾期将中断哦” ％（unifrigoodsn1））
+      与 开放式（“Unifri1的商品” + unifrigoodsn1 + “” + \
+                      时间。strftime（“％H {}％M {}％S {}”）。格式（“时”，“分”，“秒”）+ “下单成功.ordered”，“ w”）， 顺序如下：
+        打印（“已记录Unifri1的商品：％s下单成功时间” ％（unifrigoodsn1））
+      如果 INT（linecache。函数getline（R “unifri1cfg.set” ，35）。条（））==  1：
+        时间 = 时间。strftime（“％H {}％M {}％S {}”）。格式（“时”，“分”，“秒”）    ＃加入时间，避免造成重复消息导致服务器酱无法推送
+        要求。get（“ https://sc.ftqq.com/%s.send?text=%s％s下单成功，请尽快在30分钟内支付，逾期将失效哦” \
+                            ％（linecache。函数getline（R “unifri1cfg.set” ，37）。条（），次，unifrigoodsn1））
+      AllinOneExit1（）
+    除外（请求。例外。超时，请求。例外。ConnectionError，ValueError异常）：
+      自我。UnifriOrdering1（）
   
-  def UnifriMain1(self):
-    global unifriheaders1,unifridata1
-    rechangeno1 = linecache.getline(r"unifri1cfg.set",26).strip()
-    print("\n正在运行联通超级星期五\n当前配置的对应手机号为: %s\n"%(rechangeno1))
-    unifriheaders1 = {"User-Agent":"Mozilla/5.0 (Linux;Android 10;GM1910) AppleWebKit/\
-                                537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36; \
-                                unicom{version:android@7.0500}",
-                                "Cookie":"%s"%(linecache.getline(r"unifri1cfg.set",40).strip())}
-    if int(linecache.getline(r"unifri1cfg.set",22).strip()) == 1:
-      self.UnifriLocalGoods1()
-      unifrigoodsq1 = requests.get("https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/get619Activity/v1?whetherFriday=YES",
-                                                     headers=unifriheaders1,timeout=3).json()
-      if re.findall(r"未登录",str(unifrigoodsq1)) != []:
-        print("返回信息: "+unifrigoodsq1["msg"]+"\n联通登录状态失效了,请重新获取Cookie")
-        AllinOneExit1()
-    else:
-      self.UnifriNetGoods1()
-    for files in os.walk(os.getcwd()):
-      if re.findall("Unifri1的商品 %s.*\.ordered"%(unifrigoodsn1),str(files),flags=re.I) != []:
-        print("该Unifri1的商品: %s 已下单成功了,如果需要再次下单,请先删除目录下对应的.ordered文件"%(unifrigoodsn1))
-        AllinOneExit1()
-    unifridata1 = 'reqsn=&reqtime=&cliver=&reqdata={"goodsId":"%s","payWay":"01",'\
-                         '"amount":"%s","reChangeNo":"%s","saleTypes":"C","points":"0","beginTime":"%s",'\
-                         '"imei":"undefined","sourceChannel":"","proFlag":"","scene":"","pormoterCode":"",'\
-                         '"maxcash":"","floortype":"undefined"}'%(unifrigoodsid1,unifripaypri1,rechangeno1,unifrigoodsbt1)
-    self.UnifriGetOrders1()
-    if re.findall(r"已结束",str(unifriorders1)) != []:
-      print("返回信息: "+unifriorders1)
-      print("如果活动未开始却显示已结束请直接按确定继续运行\n如果活动真的已结束请输入 e 然后按确定退出程序")
-      unifriask1 = input()
-      if unifriask1.lower() == "e":
-        AllinOneExit1()
-    elif re.findall(r"达到上限|数量限制|次数限制",str(unifriorders1)) != []:
-      print("返回信息: "+unifriorders1)
-      print("该账号已有订单,不能再次购买\n")
-      AllinOneExit1()
-    elif re.findall(r"商品信息不存在",str(unifriorders1)) != []:
-      print("返回信息: "+unifriorders1)
-      print("可能未到活动当天哦,请注意使用\n")
-    time.sleep(5)
-    self.UnifriOrdering1()
+  def  UnifriMain1（self）：
+    全局 unifriheaders1，unifridata1
+    rechangeno1  =  linecache。getline（r“ unifri1cfg.set”，26）。带（）
+    打印（“ \ n正在运行联通超级星期五\ n当前配置的对应手机号为：％s \ n ” ％（rechangeno1））
+    unifriheaders1  = { “ User-Agent”：“ Mozilla / 5.0（Linux; Android 10; GM1910）AppleWebKit / \
+                                537.36（KHTML，例如Gecko）Chrome / 83.0.4103.106移动Safari / 537.36；\
+                                unicom {version：android@8.0000}“，
+                                “曲奇”：“％S” ％（ linecache。函数getline（R “unifri1cfg.set” ，40）。条（））}
+    如果 INT（linecache。函数getline（R “unifri1cfg.set” ，22）。条（））==  1：
+      自我。UnifriLocalGoods1（）
+      unifrigoodsq1  = 请求。获取（“ https://m.client.10010.com/welfare-mall-front-activity/mobile/activity/get619Activity/v1?whetherFriday=YES”，
+                                                     标头= unifriheaders1，超时= 3）。json（）
+      如果 re。findall（r“未登录”，str（unifrigoodsq1））！= []：
+        print（“返回信息：” + unifrigoodsq1 [ “ msg” ] + “ \ n联通登录状态重置了，请重新获取Cookie”）
+        AllinOneExit1（）
+    其他：
+      自我。UnifriNetGoods1（）
+    对于 文件 中的 OS。行走（OS。GETCWD（））：
+      如果 re。的findall（“Unifri1的商品％S * \命令。” ％（ unifrigoodsn1），STR（文件），旗帜=重。我）！= []：
+        打印（“该Unifri1的商品：％s已下单成功了，如果需要再次下单，请先删除目录下对应的.ordered文件” ％（unifrigoodsn1））
+        AllinOneExit1（）
+    unifridata1  =  'reqsn =＆reqtime =＆cliver =＆reqdata = {“ goodsId”：“％s”，“ payWay”：“ 01”，' \
+                         '“ amount”：“％s”，“ reChangeNo”：“％s”，“ saleTypes”：“ C”，“ points”：“ 0”，“ beginTime”：“％s”，' \
+                         '“ imei”：“未定义”，“ sourceChannel”：“”，“ proFlag”：“”，“场景”：“”，“ pormoterCode”：“”，' \
+                         '“ oneid”：“”，“ twoid”：“”，“ threeid”：“”，“ maxcash”：“”，“ floortype”：“ undefined”，' \
+                         ' “launchId”： “”}' ％（ unifrigoodsid1，unifripaypri1，rechangeno1，unifrigoodsbt1）
+    自我。UnifriGetOrders1（）
+    如果 re。findall（r“已结束”，str（unifriorders1））！= []：
+      打印（“返回信息：” + unifriorders1）
+      打印（“如果活动未开始却显示已结束请直接按确定继续运行\ n如果活动真的已结束请输入e然后按确定退出程序”）
+      unifriask1  = 输入（）
+      如果是 unifriask1。lower（）==  “ e”：
+        AllinOneExit1（）
+    ELIF 重。findall（r“达到上限|数量限制|次数限制”，str（unifriorders1））！= []：
+      打印（“返回信息：” + unifriorders1）
+      打印（“该账号已有订单，不能再次购买\ n ”）
+      AllinOneExit1（）
+    ELIF 重。findall（r“商品信息不存在”，str（unifriorders1））！= []：
+      打印（“返回信息：” + unifriorders1）
+      打印（“可能未到活动当天哦，请注意使用\ n ”）
+    对于 我 在 范围（5，0，- 1）：
+      打印（“倒计时％s秒” ％（i），结束= “ \ r ”）
+      时间。睡觉（1）
+    自我。UnifriOrdering1（）
     
-class Citic3651():
-  def Citic365LocalGoods1(self):
-    global citic365skun1,citic365skuid1
-    citic365skuid1 = linecache.getline(r"citic3651cfg.set",10).strip()
-    if citic365skuid1 == "37202008130178662128":
-      citic365skun1 = "必胜客100元"
-    elif citic365skuid1 == "37202008171706774789":
-      citic365skun1 = "呷哺呷哺50元"
-    elif citic365skuid1 == "37202008111875724259":
-      citic365skun1 = "肯德基30元"
-    else:
-      citic365skun1 = "自定义电子券"
+类 Citic3651（）：
+  def  Citic365LocalGoods1（self）：
+    全球 citic365skun1，citic365skuid1
+    citic365skuid1  =  linecache。getline（r“ citic3651cfg.set”，10）。带（）
+    如果 citic365skuid1  ==  “ 37202008130178662128”：
+      citic365skun1  =  “必胜客100元”
+    elif  citic365skuid1  ==  “ 37202008171706774789”：
+      citic365skun1  =  “呷哺呷哺乳50元”
+    elif  citic365skuid1  ==  “ 37202008111875724259”：
+      citic365skun1  =  “肯德基30元”
+    其他：
+      citic365skun1  =  “自定义电子券”
     print("已选择商品: %s\n对应商品ID: %s\n"%(citic365skun1,citic365skuid1))
 
   def Citic365Countdown(self):
@@ -333,6 +343,9 @@ class Citic3651():
         AllinOneExit1()
     except (requests.exceptions.Timeout,requests.exceptions.ConnectionError):
       self.Citic365Main1()
+    for i in range(5,0,-1):
+      print("倒计时 %s 秒"%(i),end="\r")
+      time.sleep(1)
     self.Citic365Ordering1()
 
 class CCBSatProd1():
@@ -382,8 +395,7 @@ class CCBSatProd1():
           print("返回信息: %s\n建行登录状态失效了,请重新获取Cookie"%(ccbsatporders1))
           AllinOneExit1()
         elif re.findall(r"\?{3,}",str(ccbsatporders1)) != []:
-          print("返回信息: %s\n可能被盾了,再次尝试后没有返回任何信息则请过一段时间再尝试"%(ccbsatporders1))
-          AllinOneExit1()
+          print("返回信息: %s\n系统繁忙,可能被盾了,较多次尝试后依然返回这个信息则关闭该程序一段时间后再重新打开"%(ccbsatporders1))
         ccbsatpftimes1 += 1
         print("没有下单成功,将在%s秒后第%s次刷新"%(ccbsatpftime1,ccbsatpftimes1))
         time.sleep(float(ccbsatpftime1))
@@ -427,7 +439,9 @@ class CCBSatProd1():
       ccbsatask1 = input()
       if ccbsatask1.lower() == "e":
         AllinOneExit1()
-    time.sleep(5)
+    for i in range(5,0,-1):
+      print("倒计时 %s 秒"%(i),end="\r")
+      time.sleep(1)
     self.CCBOrdering1()
 
 class JDCoupon1():
@@ -530,7 +544,9 @@ class JDCoupon1():
     elif re.findall(r"来太晚了|结束",str(jdgetcoupons1)) != []:
       print("返回信息: %s\n来晚了,券已过期"%(jdgetcoupons1))
       AllinOneExit1()
-    time.sleep(5)
+    for i in range(5,0,-1):
+      print("倒计时 %s 秒"%(i),end="\r")
+      time.sleep(1)
     self.JDCGetting1()
 
 def AllinOneMain1():
@@ -601,8 +617,8 @@ except FileNotFoundError:
   print("出错了,该目录下没有 jdgetc1cfg.set 文件哦")
   AllinOneExit1()
 linecache.updatecache("unifri1cfg.set")
-linecache.updatecache("citic3651cfg.set")
-linecache.updatecache("ccbsat1cfg.set")
-linecache.updatecache("jdgetc1cfg.set")
+行缓存。updatecache（“ citic3651cfg.set”）
+行缓存。updatecache（“ ccbsat1cfg.set”）
+行缓存。updatecache（“ jdgetc1cfg.set”）
 
-AllinOneMain1()
+AllinOneMain1（）
